@@ -173,7 +173,7 @@ form button:hover{
     
     margin:0;
     gap: 5px;
-    background-color: rgb(0, 68, 255);
+    background-color: rgba(49, 87, 191, 0.452);
     
 }
 .div2{
@@ -218,23 +218,10 @@ form button:hover{
     
     height: 100% ;
 }
-/* .pls1{
+.fa-solid{
     font-size: 50px;
     color: #333;
-    display: flex;
-    justify-content: center;
-    margin-top: 80px;
+    margin: 15%;
     cursor: pointer;
-    margin-left: 150px;
-    
+    align-self: center;
 }
-.pls2{
-    font-size: 50px;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    margin-top: 300px;
-    cursor: pointer;
-    margin-left: 150px;
-    
-} */
