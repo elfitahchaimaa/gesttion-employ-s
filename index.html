@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gestion des employés</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+    <div class="sidebar">
+        <h2>Unassigned Staff</h2>
+        <div id="affichage"></div>
+        <button class="ajoutworker"><i class="fa-solid fa-circle-plus"></i></button>
+
+        <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Ajouter un membre</h3>
+            <div class="imgcontainer">
+                <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <form>
+            <label>Nom :</label>
+            <input type="text" id="nom">
+
+            <label>Rôle :</label>
+            <input type="text" id="role">
+
+            <label>Photo (URL) :</label>
+            <input type="text" id="photo">
+
+            <label>Email :</label>
+            <input type="email" id="email">
+
+            <label>Téléphone :</label>
+            <input type="text" id="telephone">
+
+            <button id="btnSave" class="save" type="button">Enregistrer</button>
+            <button id="btnClose" class="close" type="button">Fermer</button></form>
+        </div>
+        </div>
+
+    </div>
+    <div class="mainbar">
+        <div class="div1">
+            <i class="fa-solid fa-circle-plus pls1"></i>
+            <i class="fa-solid fa-circle-plus pls2"></i>
+        </div>
+        <div class="div2"></div>
+        <div class="div3"></div>
+
+    </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

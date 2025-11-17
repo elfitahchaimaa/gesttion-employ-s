@@ -1,0 +1,194 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+.sidebar{
+    background-color: #f4f4f4;
+    height: 100vh;
+}
+.mainbar{
+    background-color: #fff;
+    height: 100vh;
+}
+.sidebar>h2{
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+.fa-circle-plus{
+    font-size: 35px;
+    color: #333;
+}
+.ajoutworker{
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+.ajoutworker:hover .fa-circle-plus{
+    color: #007BFF;
+}
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.modal-content{
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    border-radius: 5px;
+}
+.modal-content h3{
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+form label{
+    margin-top: 10px;
+    font-family: Arial, sans-serif;
+}
+form input{
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+form button{
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+form button:hover{
+    background-color: #525252;
+}
+.imgcontainer{
+    text-align: center;
+    margin: 24px 30px 12px 150px;
+    border-radius: 50%;
+    background-color: #929292ce;
+    width: 100px;
+    height: 100px;
+}
+.fa-chalkboard-user{
+    font-size: 70px;
+    color: white;
+    margin-top: 10px;
+}
+.afficher{
+    display: block;
+    display: flex;
+    height: 20vh;
+    padding: 20px;
+    color: #000000;
+}
+.worker-card {
+    padding: 10px;
+    margin: 10px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.worker-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.worker-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.worker-role {
+    color: gray;
+    margin-left: 93px;
+    margin-top: -20px;
+}
+.edit-btn {
+    margin-top: 10px;
+    padding: 6px 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+.worker-info{
+    display: flex;
+    align-items: center;
+    gap:15px;
+}
+.delete-btn {
+  margin-top: 10px;
+  padding: 6px 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.mainbar{
+    background-image: url('entreprise.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+.div1, .div2, .div3{
+    background-color: rgba(255, 255, 255, 0.7);
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.pls1{
+    font-size: 50px;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    cursor: pointer;
+    margin-left: 150px;
+    
+}
+.pls2{
+    font-size: 50px;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    margin-top: 300px;
+    cursor: pointer;
+    margin-left: 150px;
+    
+}
