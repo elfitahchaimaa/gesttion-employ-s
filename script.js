@@ -3,6 +3,8 @@ const modal=document.getElementById("modal");
 const closebtn=document.getElementById("btnClose");
 const savebtn=document.getElementById("btnSave");
 const affichage=document.getElementById("affichage");
+const previewImg =document.getElementById("previewImg");
+const photoInput =document.getElementById("photo");
 let currentCard = null;
 let workers=JSON.parse(localStorage.getItem("workers")) || [];
 
@@ -59,8 +61,9 @@ affichage.addEventListener("click", function(e) {
 
     const index = card.dataset.index;
     if (e.target.classList.contains("edit-btn")) {
-        const btn = e.target;
-        currentCard =btn.parentElement;
+    const btn = e.target.closest(".edit-btn");
+    currentCard = btn.closest(".worker-card");
+
         document.getElementById("nom").value = btn.dataset.nom;
         document.getElementById("role").value = btn.dataset.role;
         document.getElementById("photo").value = btn.dataset.photo;
@@ -103,5 +106,17 @@ function renderworkers() {
 document.addEventListener("DOMContentLoaded", () => {
     renderworkers();
 });
+// aperçu de l'image juste lorsque on entre l'url
+photoInput.addEventListener("input",function(){
+    const url=photoInput.value.trim();
+    if(url){
+        previewImg.src=url;
+        previewImg.style.display="block";
+
+    }
+    else{
+        previewImg.style.display="none";
+    }
+})
 
 
