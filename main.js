@@ -22,3 +22,26 @@ document.querySelectorAll(".assign-btn").forEach(btn=>{
         showAssignableWorkers(zone);
     });
 });
+//fermeture de model d assignement
+document.getElementById("assignModalClose").addEventListener("click", () => {
+    document.getElementById("assignModal").style.display = "none";
+});
+//fonction d affichage des employes assignables
+function showAssignableWorkers(zone) {
+    const list = document.getElementById("assignModalList");
+    list.innerHTML = "";
+
+    workers.forEach((w, index) => {
+        if (canEnter(w.role, zone)) {
+            list.innerHTML += `
+                <div class="assign-item" data-index="${index}">
+                    <img src="${w.photo}" style="width:40px;height:40px;border-radius:50%">
+                    <span>${w.nom} (${w.role})</span>
+                </div>
+            `;
+        }
+    });
+
+    document.getElementById("assignModal").dataset.zone = zone;
+    document.getElementById("assignModal").style.display = "block";
+}
