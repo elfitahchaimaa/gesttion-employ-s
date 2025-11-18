@@ -15,4 +15,10 @@ function hasAccess(Role,zone){
     }
     return rule.includes(Role);
 }
-
+//cliquer sur le bouton + et avtiver la
+document.querySelectorAll(".assign-btn").forEach(btn=>{
+    btn.addEventListener("click",function(){
+        const zone=this.ParentElement.classList[1];//recupere le div de la zone selectionnéé
+        showAssignableWorkers(zone);
+    });
+});
