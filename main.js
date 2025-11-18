@@ -15,3 +15,4 @@ function hasAccess(Role,zone){
     }
     return rule.includes(Role);
 }
+
