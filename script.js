@@ -1,4 +1,6 @@
-// Variables globales
+
+
+// VARIABLES GLOBALES 
 const addbtn = document.querySelector(".ajoutworker");
 const modal = document.getElementById("modal");
 const closebtn = document.getElementById("btnClose");
@@ -12,14 +14,24 @@ let workers = [];
 let assignments = {};
 let dataLoaded = false;
 
-// CHARGER LES DONNÉES DEPUIS LE FICHIER JSON 
+//  CHARGER LES DONNÉES DEPUIS LE FICHIER JSON 
+/**
+ * Charge les données une seule fois au démarrage
+ * Les données restent en mémoire pendant toute la session
+ * Pas de persistance (les modifications disparaissent au rechargement)
+ */
 async function loadDataFromJSON() {
     try {
+        // Récupère data.json
         const response = await fetch('data.json');
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);//le statut fu requete doit etre entre 200 et 299
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();//continue seulement quand cette opération est terminé
+        
+        // Convertit en objet JavaScript
+        const data = await response.json();
+        
+        // Remplit les variables globales
         workers = data.workers || [];
         assignments = data.assignments || {
             "conference": [],
@@ -30,11 +42,12 @@ async function loadDataFromJSON() {
             "Salle-darchives": [],
             "div3": []
         };
+        
         dataLoaded = true;
-        console.log("Données chargées depuis data.json");
+        console.log("✅ Données chargées depuis data.json");
     } catch (error) {
-        console.error('Erreur lors du chargement de data.json:', error);
-        // Fallback si le fichier JSON n'existe pas
+        console.error('❌ Erreur lors du chargement de data.json:', error);
+        // Fallback - données vides
         workers = [];
         assignments = {
             "conference": [],
@@ -45,35 +58,6 @@ async function loadDataFromJSON() {
             "Salle-darchives": [],
             "div3": []
         };
-    }
-}
-
-// SAUVEGARDER LES DONNÉES DANS LE FICHIER JSON 
-async function saveDataToJSON() {
-    const data = {
-        workers: workers,
-        assignments: assignments
-    };
-
-    try {
-        // Envoyer au serveur pour sauvegarder
-        const response = await fetch('save-data.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log('Données sauvegardées:', result.message);
-    } catch (error) {
-        console.error('Erreur lors de la sauvegarde:', error);
-        alert('Erreur lors de la sauvegarde des données. Vérifiez la console.');
     }
 }
 
@@ -121,31 +105,39 @@ savebtn.addEventListener("click", () => {
         }
     });
 
+    // Créer l'objet worker
+    const newWorker = { nom, role, photo, email, telephone, experiences };
+
     if (currentCard) {
-        // Mettre à jour la card existante
+        // Mode modification
         const index = currentCard.dataset.index;
-        workers[index] = { nom, role, photo, email, telephone, experiences };
+        workers[index] = newWorker;
+        console.log(`✅ Worker modifié: ${nom}`);
     } else {
-        // Si aucune card n'est sélectionnée, créer une nouvelle card
-        workers.push({ nom, role, photo, email, telephone, experiences });
+        // Mode ajout
+        workers.push(newWorker);
+        console.log(`✅ Worker ajouté: ${nom}`);
     }
 
-    saveDataToJSON();
+    // Mettre à jour l'affichage
     renderworkers();
 
+    // Fermer le modal
     modal.style.display = "none";
     currentCard = null;
 });
 
 document.querySelector("form").addEventListener("submit", e => e.preventDefault());
 
-// AFFICHAGE DES EMPLOYÉS 
+//  AFFICHAGE DES EMPLOYÉS 
 affichage.addEventListener("click", function (e) {
     const card = e.target.closest(".worker-card");
     if (!card) return;
 
     const index = card.dataset.index;
+    
     if (e.target.closest(".edit-btn")) {
+        // Mode édition
         const btn = e.target.closest(".edit-btn");
         currentCard = btn.closest(".worker-card");
         const workerIndex = currentCard.dataset.index;
@@ -167,14 +159,17 @@ affichage.addEventListener("click", function (e) {
 
         modal.style.display = "block";
     } else if (e.target.closest(".delete-btn")) {
+        // Mode suppression
         if (confirm("Êtes-vous sûr de vouloir supprimer cet employé?")) {
+            const nom = workers[index].nom;
             workers.splice(index, 1);
-            saveDataToJSON();
+            console.log(`✅ Worker supprimé: ${nom}`);
             renderworkers();
         }
     }
 });
 
+//  FONCTION: AFFICHER LA LISTE DES EMPLOYÉS 
 function renderworkers() {
     affichage.innerHTML = "";
     workers.forEach((worker, index) => {
@@ -201,9 +196,16 @@ function renderworkers() {
 
 // GESTION DES EXPÉRIENCES 
 document.addEventListener("DOMContentLoaded", async () => {
+    // Charger les données au démarrage
     await loadDataFromJSON();
+    
+    // Afficher la liste
     renderworkers();
+    
+    // Afficher les zones
     renderAssignments();
+    
+    // Initialiser la gestion des expériences
     setupExperienceManager();
 });
 
@@ -260,7 +262,7 @@ function displayWorkerExperiences(worker) {
     }
 }
 
-// Aperçu de l'image juste lorsque on entre l'url
+// APERÇU DE L'IMAGE EN TEMPS RÉEL 
 photoInput.addEventListener("input", function () {
     const url = photoInput.value.trim();
     if (url) {
@@ -271,7 +273,7 @@ photoInput.addEventListener("input", function () {
     }
 });
 
-//  GESTION DES ACCÈS PAR ZONE 
+// GESTION DES ACCÈS PAR ZONE 
 const accessrules = {
     "reception": ["Réceptioniste", "Manager"],
     "Salle-des-serveurs": ["Technicien-IT", "Manager"],
@@ -291,7 +293,7 @@ function hasAccess(Role, zone) {
     return rule.includes(Role);
 }
 
-// ========== SYSTÈME D'ASSIGNEMENT ==========
+// SYSTÈME D'ASSIGNEMENT 
 // Cliquer sur le bouton + pour activer le modal d'assignement
 document.querySelectorAll(".assign-btn").forEach(btn => {
     btn.addEventListener("click", function () {
@@ -305,7 +307,7 @@ document.getElementById("assignModalClose").addEventListener("click", () => {
     document.getElementById("assignModal").style.display = "none";
 });
 
-// Fonction d'affichage des employés assignables
+// FONCTION: AFFICHER LES EMPLOYÉS ASSIGNABLES 
 function showAssignableWorkers(zone) {
     const list = document.getElementById("assignModalList");
     list.innerHTML = "";
@@ -330,7 +332,7 @@ function showAssignableWorkers(zone) {
     document.getElementById("assignModal").style.display = "block";
 }
 
-// Gestion de l'assignement
+// ÉVÉNEMENT: CLIQUER SUR UN EMPLOYÉ ASSIGNABLE 
 document.getElementById("assignModalList").addEventListener("click", function (e) {
     const item = e.target.closest(".assign-item");
     if (!item) return;
@@ -341,19 +343,16 @@ document.getElementById("assignModalList").addEventListener("click", function (e
     assignWorkerToZone(index, zone);
 });
 
-// Assigner l'employé à la zone avec persistance
+// FONCTION: ASSIGNER UN EMPLOYÉ À UNE ZONE 
 function assignWorkerToZone(index, zone) {
     const worker = workers[index];
 
     // Ajouter aux assignements
     assignments[zone].push(worker);
-
-    // Sauvegarder les données
-    saveDataToJSON();
+    console.log(`✅ ${worker.nom} assigné à ${zone}`);
 
     // Enlever de la liste des disponibles
     workers.splice(index, 1);
-    saveDataToJSON();
 
     // Mettre à jour l'affichage
     renderworkers();
@@ -362,7 +361,7 @@ function assignWorkerToZone(index, zone) {
     document.getElementById("assignModal").style.display = "none";
 }
 
-// Fonction pour réafficher les assignements
+// FONCTION: AFFICHER LES ASSIGNEMENTS AUX ZONES 
 function renderAssignments() {
     // Nettoyer les zones (garder les boutons)
     document.querySelectorAll(".zone").forEach(zone => {
@@ -412,9 +411,7 @@ function renderAssignments() {
 
             // Remettre en liste disponible
             workers.push(worker);
-
-            // Sauvegarder
-            saveDataToJSON();
+            console.log(`✅ ${worker.nom} retiré de ${zone}`);
 
             // Rafraîchir l'affichage
             renderworkers();
