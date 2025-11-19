@@ -1,0 +1,238 @@
+{
+  "workers": [
+    {
+      "nom": "Alexis Rousseau",
+      "role": "Réceptioniste",
+      "photo": "https://i.pravatar.cc/150?img=1&u=alexis.rousseau@entreprise.com",
+      "email": "alexis.rousseau@entreprise.com",
+      "telephone": "06 12 34 56 78",
+      "experiences": [
+        {
+          "titre": "Réceptioniste Senior",
+          "entreprise": "Hôtel Prestige",
+          "duree": "3 ans"
+        },
+        {
+          "titre": "Assistante Administrative",
+          "entreprise": "Cabinet Juridique Martin",
+          "duree": "2 ans"
+        }
+      ]
+    },
+    {
+      "nom": "Marie-Claire Dubois",
+      "role": "Manager",
+      "photo": "https://i.pravatar.cc/150?img=5&u=marie.dubois@entreprise.com",
+      "email": "marie.dubois@entreprise.com",
+      "telephone": "06 87 65 43 21",
+      "experiences": [
+        {
+          "titre": "Directrice des Opérations",
+          "entreprise": "TechCorp France",
+          "duree": "5 ans"
+        },
+        {
+          "titre": "Chef de Projet",
+          "entreprise": "Innovation Solutions",
+          "duree": "4 ans"
+        },
+        {
+          "titre": "Coordinatrice d'Équipe",
+          "entreprise": "Services Consulting",
+          "duree": "3 ans"
+        }
+      ]
+    },
+    {
+      "nom": "Pierre-Antoine Bernard",
+      "role": "Technicien-IT",
+      "photo": "https://i.pravatar.cc/150?img=12&u=pierre.bernard@entreprise.com",
+      "email": "pierre.bernard@entreprise.com",
+      "telephone": "06 11 22 33 44",
+      "experiences": [
+        {
+          "titre": "Administrateur Système Senior",
+          "entreprise": "DataFlow Systems",
+          "duree": "6 ans"
+        },
+        {
+          "titre": "Technicien Réseau",
+          "entreprise": "CloudTech Solutions",
+          "duree": "3 ans"
+        },
+        {
+          "titre": "Support Informatique",
+          "entreprise": "Bureau Services Plus",
+          "duree": "2 ans"
+        }
+      ]
+    },
+    {
+      "nom": "Sophie Anne Leclerc",
+      "role": "Agent de sécurité",
+      "photo": "https://i.pravatar.cc/150?img=20&u=sophie.leclerc@entreprise.com",
+      "email": "sophie.leclerc@entreprise.com",
+      "telephone": "06 55 66 77 88",
+      "experiences": [
+        {
+          "titre": "Chef de Sécurité",
+          "entreprise": "SecuriGroup International",
+          "duree": "4 ans"
+        },
+        {
+          "titre": "Agent de Sécurité",
+          "entreprise": "Protection Plus",
+          "duree": "3 ans"
+        },
+        {
+          "titre": "Vigile",
+          "entreprise": "Sécurité Événements",
+          "duree": "2 ans"
+        }
+      ]
+    },
+    {
+      "nom": "Laurent Michel Durand",
+      "role": "Manager",
+      "photo": "https://i.pravatar.cc/150?img=33&u=laurent.durand@entreprise.com",
+      "email": "laurent.durand@entreprise.com",
+      "telephone": "06 44 55 66 77",
+      "experiences": [
+        {
+          "titre": "Directeur Commercial",
+          "entreprise": "Ventes Premium SARL",
+          "duree": "7 ans"
+        },
+        {
+          "titre": "Manager Commercial",
+          "entreprise": "Groupe Distribution",
+          "duree": "5 ans"
+        },
+        {
+          "titre": "Responsable de Secteur",
+          "entreprise": "Commerce et Services",
+          "duree": "3 ans"
+        }
+      ]
+    },
+    {
+      "nom": "Nathalie Françoise Petit",
+      "role": "Réceptioniste",
+      "photo": "https://i.pravatar.cc/150?img=45&u=nathalie.petit@entreprise.com",
+      "email": "nathalie.petit@entreprise.com",
+      "telephone": "06 99 88 77 66",
+      "experiences": [
+        {
+          "titre": "Hôtesse d'Accueil",
+          "entreprise": "Air France Hub",
+          "duree": "2 ans"
+        },
+        {
+          "titre": "Réceptioniste",
+          "entreprise": "Clinique Saint-Joseph",
+          "duree": "3 ans"
+        }
+      ]
+    },
+    {
+      "nom": "Christophe Gabriel Moreau",
+      "role": "Technicien-IT",
+      "photo": "https://i.pravatar.cc/150?img=56&u=christophe.moreau@entreprise.com",
+      "email": "christophe.moreau@entreprise.com",
+      "telephone": "06 22 33 44 55",
+      "experiences": [
+        {
+          "titre": "Développeur Full Stack",
+          "entreprise": "WebDev Agency",
+          "duree": "4 ans"
+        },
+        {
+          "titre": "Technicien Support IT",
+          "entreprise": "IT Solutions Group",
+          "duree": "2 ans"
+        },
+        {
+          "titre": "Stagiaire Développement",
+          "entreprise": "StartUp Tech",
+          "duree": "1 an"
+        }
+      ]
+    },
+    {
+      "nom": "Isabelle Catherine Vincent",
+      "role": "Agent de sécurité",
+      "photo": "https://i.pravatar.cc/150?img=67&u=isabelle.vincent@entreprise.com",
+      "email": "isabelle.vincent@entreprise.com",
+      "telephone": "06 77 88 99 00",
+      "experiences": [
+        {
+          "titre": "Responsable Sécurité",
+          "entreprise": "Casino de Deauville",
+          "duree": "5 ans"
+        },
+        {
+          "titre": "Agent de Surveillance",
+          "entreprise": "Groupe de Sécurité 24/7",
+          "duree": "3 ans"
+        }
+      ]
+    },
+    {
+      "nom": "Olivier Raphaël Martin",
+      "role": "Réceptioniste",
+      "photo": "https://i.pravatar.cc/150?img=78&u=olivier.martin@entreprise.com",
+      "email": "olivier.martin@entreprise.com",
+      "telephone": "06 11 00 99 88",
+      "experiences": [
+        {
+          "titre": "Réceptioniste Hotel 4 étoiles",
+          "entreprise": "Hotel Majestic",
+          "duree": "4 ans"
+        },
+        {
+          "titre": "Accueillez Client",
+          "entreprise": "Centre de Conférences",
+          "duree": "2 ans"
+        },
+        {
+          "titre": "Secrétaire de Direction",
+          "entreprise": "Conseil en Management",
+          "duree": "1 an"
+        }
+      ]
+    },
+    {
+      "nom": "Valérie Stéphanie Mercier",
+      "role": "Manager",
+      "photo": "https://i.pravatar.cc/150?img=89&u=valerie.mercier@entreprise.com",
+      "email": "valerie.mercier@entreprise.com",
+      "telephone": "06 66 77 88 99",
+      "experiences": [
+        {
+          "titre": "Gestionnaire Ressources Humaines",
+          "entreprise": "RH Plus Consulting",
+          "duree": "6 ans"
+        },
+        {
+          "titre": "Manager de Département",
+          "entreprise": "Groupe Distribution France",
+          "duree": "4 ans"
+        },
+        {
+          "titre": "Superviseur d'Équipe",
+          "entreprise": "Centre d'Appels",
+          "duree": "3 ans"
+        }
+      ]
+    }
+  ],
+  "assignments": {
+    "conference": [],
+    "reception": [],
+    "Salle-des-serveurs": [],
+    "Salle-de-sécurité": [],
+    "Salle-du-personnel": [],
+    "Salle-darchives": [],
+    "div3": []
+  }
+}

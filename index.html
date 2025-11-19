@@ -10,83 +10,89 @@
 </head>
 <body>
     <div class="container">
-    <div class="sidebar">
-        <h2>Unassigned Staff</h2>
-        <div id="affichage"></div>
-        <button class="ajoutworker"><i class="fa-solid fa-circle-plus"></i></button>
+        <div class="sidebar">
+            <h2>Unassigned Staff</h2>
+            <div id="affichage"></div>
+            <button class="ajoutworker"><i class="fa-solid fa-circle-plus"></i></button>
 
-        <div id="modal" class="modal">
-        <div class="modal-content">
-            <h3>Ajouter un membre</h3>
-            <div class="imgcontainer">
-                <img id="previewImg" src="" alt="Prévisualisation" style="width:100px;height:100px;border-radius:50%;display:none;">
+            <!-- MODAL D'AJOUT/ÉDITION D'EMPLOYÉ -->
+            <div id="modal" class="modal1" style="display:none;">
+                <div class="modal-content">
+                    <h3>Ajouter un Employé</h3>
+                    
+                    <div class="imgcontainer">
+                        <img id="previewImg" src="" alt="Prévisualisation" style="display:none;">
+                        <i id="defaultIcon" class="fa-solid fa-user"></i>
+                    </div>
+
+                    <form>
+                        <label>Nom <span style="color: red;">*</span></label>
+                        <input type="text" id="nom" placeholder="Entrez le nom" required>
+
+                        <label>Rôle <span style="color: red;">*</span></label>
+                        <input type="text" id="role" placeholder="Ex: Réceptionniste" required>
+
+                        <label>Photo (URL)</label>
+                        <input type="url" id="photo" placeholder="https://exemple.com/photo.jpg">
+
+                        <label>Email <span style="color: red;">*</span></label>
+                        <input type="email" id="email" placeholder="nom@entreprise.com" required>
+
+                        <label>Téléphone <span style="color: red;">*</span></label>
+                        <input type="text" id="telephone" placeholder="06 12 34 56 78" required>
+
+                        <!-- EXPÉRIENCES PROFESSIONNELLES -->
+                        <label>Expériences Professionnelles</label>
+                        <div id="experiencesContainer"></div>
+                        <button type="button" id="addExperienceBtn">+ Ajouter une expérience</button>
+
+                        <button id="btnSave" class="save" type="button">Enregistrer</button>
+                        <button id="btnClose" class="close" type="button">Fermer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="mainbar">
+
+            <div class="conference zone">
+                <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
             </div>
 
-            <form>
-            <label>Nom :</label>
-            <input type="text" id="nom">
+            <div class="reception zone">
+                <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+            </div>
 
-            <label>Rôle :</label>
-            <input type="text" id="role">
+            <div class="div3 zone"></div>
 
-            <label>Photo (URL) :</label>
-            <input type="text" id="photo">
+            <div class="Salle-des-serveurs zone">
+                <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+            </div>
 
-            <label>Email :</label>
-            <input type="email" id="email">
+            <div class="Salle-de-sécurité zone">
+                <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+            </div>
 
-            <label>Téléphone :</label>
-            <input type="text" id="telephone">
+            <div class="Salle-du-personnel zone">
+                <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+            </div>
 
-            <button id="btnSave" class="save" type="button">Enregistrer</button>
-            <button id="btnClose" class="close" type="button">Fermer</button></form>
+            <div class="Salle-darchives zone">
+                <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+            </div>
+
         </div>
-        </div>
-
-    </div>
-  <div class="mainbar">
-
-    <div class="conference zone">
-        <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
     </div>
 
-    <div class="reception zone">
-        <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
-    </div>
-
-    <div class="div3 zone">
-        <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
-    </div>
-
-    <div class="Salle-des-serveurs zone">
-        <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
-    </div>
-
-    <div class="Salle-de-sécurité zone">
-        <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
-    </div>
-
-    <div class="Salle-du-personnel zone">
-        <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
-    </div>
-
-    <div class="Salle-darchives zone">
-        <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
-    </div>
-
-</div>
     <!-- MODALE POUR ASSIGNER UN EMPLOYÉ À UNE ZONE -->
-<div id="assignModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <h3>Choisir un employé pour cette zone</h3>
-        <div id="assignModalList"></div>
-        <button id="assignModalClose">Fermer</button>
+    <div id="assignModal" class="modal1" style="display:none;">
+        <div class="modal-content">
+            <h3>Choisir un employé pour cette zone</h3>
+            <div id="assignModalList"></div>
+            <button id="assignModalClose" class="close">Fermer</button>
+        </div>
     </div>
-</div>
-
-
 
     <script src="script.js"></script>
-    <script src="main.js"></script>
 </body>
 </html>
