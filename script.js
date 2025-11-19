@@ -44,9 +44,9 @@ async function loadDataFromJSON() {
         };
         
         dataLoaded = true;
-        console.log("✅ Données chargées depuis data.json");
+        console.log(" Données chargées depuis data.json");
     } catch (error) {
-        console.error('❌ Erreur lors du chargement de data.json:', error);
+        console.error(' Erreur lors du chargement de data.json:', error);
         // Fallback - données vides
         workers = [];
         assignments = {
