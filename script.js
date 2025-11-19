@@ -112,11 +112,11 @@ savebtn.addEventListener("click", () => {
         // Mode modification
         const index = currentCard.dataset.index;
         workers[index] = newWorker;
-        console.log(`✅ Worker modifié: ${nom}`);
+        console.log(` Worker modifié: ${nom}`);
     } else {
         // Mode ajout
         workers.push(newWorker);
-        console.log(`✅ Worker ajouté: ${nom}`);
+        console.log(` Worker ajouté: ${nom}`);
     }
 
     // Mettre à jour l'affichage
@@ -163,7 +163,7 @@ affichage.addEventListener("click", function (e) {
         if (confirm("Êtes-vous sûr de vouloir supprimer cet employé?")) {
             const nom = workers[index].nom;
             workers.splice(index, 1);
-            console.log(`✅ Worker supprimé: ${nom}`);
+            console.log(` Worker supprimé: ${nom}`);
             renderworkers();
         }
     }
@@ -349,7 +349,7 @@ function assignWorkerToZone(index, zone) {
 
     // Ajouter aux assignements
     assignments[zone].push(worker);
-    console.log(`✅ ${worker.nom} assigné à ${zone}`);
+    console.log(` ${worker.nom} assigné à ${zone}`);
 
     // Enlever de la liste des disponibles
     workers.splice(index, 1);
@@ -411,7 +411,7 @@ function renderAssignments() {
 
             // Remettre en liste disponible
             workers.push(worker);
-            console.log(`✅ ${worker.nom} retiré de ${zone}`);
+            console.log(` ${worker.nom} retiré de ${zone}`);
 
             // Rafraîchir l'affichage
             renderworkers();
