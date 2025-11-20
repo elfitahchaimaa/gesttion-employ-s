@@ -1,421 +1,505 @@
 
+let employesGlobal = [];
+const detailsModal = document.getElementById('detailsModal');
+const detailNom = document.getElementById('detailNom');
+const detailPhoto = document.getElementById('detailPhoto');
+const detailRole = document.getElementById('detailRole');
+const detailEmail = document.getElementById('detailEmail');
+const detailTel = document.getElementById('detailTel');
+const detailExperiences = document.getElementById('detailExperiences');
+const detailsClose = document.getElementById('detailsClose');
+const modal = document.getElementById('modal');
+const openAddBtn = document.querySelector('.ajoutworker');
+const closeAddBtn = document.getElementById('btnClose');
+const affichage = document.getElementById('affichage');
+const form = document.getElementById('addWorkerForm');
+const saveBtn = document.getElementById('btnSave');
+const inputNom = document.getElementById('nom');
+const inputRole = document.getElementById('role');
+const inputPhoto = document.getElementById('photo');
+const inputEmail = document.getElementById('email');
+const inputTel = document.getElementById('telephone');
+const experiencesContainer = document.getElementById('experiencesContainer');
+const addExperienceBtn = document.getElementById('addExperienceBtn');
 
-// VARIABLES GLOBALES 
-const addbtn = document.querySelector(".ajoutworker");
-const modal = document.getElementById("modal");
-const closebtn = document.getElementById("btnClose");
-const savebtn = document.getElementById("btnSave");
-const affichage = document.getElementById("affichage");
-const previewImg = document.getElementById("previewImg");
-const photoInput = document.getElementById("photo");
-
-let currentCard = null;
-let workers = [];
-let assignments = {};
-let dataLoaded = false;
-
-//  CHARGER LES DONNÉES DEPUIS LE FICHIER JSON 
-/**
- * Charge les données une seule fois au démarrage
- * Les données restent en mémoire pendant toute la session
- * Pas de persistance (les modifications disparaissent au rechargement)
- */
-async function loadDataFromJSON() {
-    try {
-        // Récupère data.json
-        const response = await fetch('data.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        // Convertit en objet JavaScript
-        const data = await response.json();
-        
-        // Remplit les variables globales
-        workers = data.workers || [];
-        assignments = data.assignments || {
-            "conference": [],
-            "reception": [],
-            "Salle-des-serveurs": [],
-            "Salle-de-sécurité": [],
-            "Salle-du-personnel": [],
-            "Salle-darchives": [],
-            "div3": []
-        };
-        
-        dataLoaded = true;
-        console.log(" Données chargées depuis data.json");
-    } catch (error) {
-        console.error(' Erreur lors du chargement de data.json:', error);
-        // Fallback - données vides
-        workers = [];
-        assignments = {
-            "conference": [],
-            "reception": [],
-            "Salle-des-serveurs": [],
-            "Salle-de-sécurité": [],
-            "Salle-du-personnel": [],
-            "Salle-darchives": [],
-            "div3": []
-        };
+//  data.json
+async function ChargerEmp() {
+  try {
+    const response = await fetch('data.json');
+    if (!response.ok) {
+      throw new Error('erreur http:' + response.status);
     }
+    const data = await response.json();   
+    employesGlobal = data.workers;       
+    afficherEmployes(employesGlobal);    
+  } catch (err) {
+    console.error(err);
+    affichage.textContent = "impossible d'afficher les employés";
+  }
 }
+ChargerEmp();
 
-// MODAL D'AJOUT/ÉDITION D'EMPLOYÉ 
-addbtn.addEventListener("click", () => {
-    modal.style.display = "block";
-    currentCard = null;
-    document.getElementById("nom").value = "";
-    document.getElementById("role").value = "";
-    document.getElementById("photo").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("telephone").value = "";
-    document.getElementById("experiencesContainer").innerHTML = "";
-    previewImg.style.display = "none";
-});
+// AFFICHER LES EMPLOYÉS DANS LE SIDEBAR 
+function afficherEmployes(employes) {
+  affichage.innerHTML = '';
 
-closebtn.addEventListener("click", () => {
-    modal.style.display = "none";
-});
+  employes.forEach(emp => {
+    const card = document.createElement('div');
+    card.classList.add('worker-card');
 
-savebtn.addEventListener("click", () => {
-    let nom = document.getElementById("nom").value.trim();
-    let role = document.getElementById("role").value.trim();
-    let photo = document.getElementById("photo").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let telephone = document.getElementById("telephone").value.trim();
+    const img = document.createElement('img');
+    img.classList.add('worker-photo');
+    img.src = emp.photo || 'default.jpg';
+    img.alt = emp.nom;
+    card.appendChild(img);
 
-    // Validation
-    if (!nom || !role || !email || !telephone) {
-        alert("Veuillez remplir tous les champs obligatoires!");
-        return;
-    }
+    const nom = document.createElement('h3');
+    nom.textContent = emp.nom;
+    card.appendChild(nom);
 
-    // Récupérer les expériences
-    const experienceInputs = document.querySelectorAll(".experience-item");
-    const experiences = [];
-    experienceInputs.forEach(item => {
-        const inputs = item.querySelectorAll("input");
-        if (inputs[0].value.trim() || inputs[1].value.trim() || inputs[2].value.trim()) {
-            experiences.push({
-                titre: inputs[0].value.trim(),
-                entreprise: inputs[1].value.trim(),
-                duree: inputs[2].value.trim()
-            });
-        }
+    const role = document.createElement('p');
+    role.classList.add('worker-role');
+    role.textContent = emp.role;
+    card.appendChild(role);
+
+    const email = document.createElement('p');
+    email.classList.add('worker-email');
+    email.textContent = emp.email;
+    card.appendChild(email);
+
+    const tel = document.createElement('p');
+    tel.classList.add('worker-phone');
+    tel.textContent = emp.telephone;
+    card.appendChild(tel);
+
+    const btn = document.createElement('button');
+    btn.textContent = 'Assigner';
+    btn.classList.add('assign-worker-btn');
+    card.appendChild(btn);
+
+    card.addEventListener('click', function () {
+      ouvrirDetailsModal(emp);
     });
 
-    // Créer l'objet worker
-    const newWorker = { nom, role, photo, email, telephone, experiences };
+    affichage.appendChild(card);
+  });
+}
 
-    if (currentCard) {
-        // Mode modification
-        const index = currentCard.dataset.index;
-        workers[index] = newWorker;
-        console.log(` Worker modifié: ${nom}`);
+// modal details
+function ouvrirDetailsModal(emp) {
+  detailNom.textContent = emp.nom;
+  detailPhoto.src = emp.photo;
+  detailPhoto.alt = emp.nom;
+  detailRole.textContent = emp.role;
+  detailEmail.textContent = emp.email;
+  detailTel.textContent = emp.telephone;
+
+  detailExperiences.innerHTML = '';
+  (emp.experiences || []).forEach(exp => {
+    const p = document.createElement('p');
+    p.textContent = `${exp.titre} - ${exp.entreprise} (${exp.duree})`;
+    detailExperiences.appendChild(p);
+  });
+
+  detailsModal.style.display = 'block';
+}
+
+detailsClose.addEventListener('click', () => {
+  detailsModal.style.display = 'none';
+});
+
+detailsModal.addEventListener('click', (e) => {
+  if (e.target === detailsModal) {
+    detailsModal.style.display = 'none';
+  }
+});
+
+// MODALE FORMULAIRE (OUVRIR / FERMER)
+openAddBtn.addEventListener('click', () => {
+  form.reset();
+  experiencesContainer.innerHTML = '';
+  // nettoyer erreurs
+  [inputNom, inputRole, inputEmail, inputTel].forEach(clearError);
+  modal.style.display = 'flex';
+});
+
+closeAddBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+//  REGEX 
+const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]{2,}$/;
+const phoneRegex = /^0\d(\s?\d{2}){4}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const dateRegex = /^([1-9]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+
+function isNameValid(v) { return nameRegex.test(v.trim()); }
+function isPhoneValid(v) { return phoneRegex.test(v.trim()); }
+function isEmailValid(v) { return emailRegex.test(v.trim()); }
+function isDateValid(v) { return dateRegex.test(v.trim()); }
+
+function getTodayISO() {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function isPastOrToday(dateStr) {
+  if (!isDateValid(dateStr)) return false;
+  return dateStr <= getTodayISO();
+}
+
+// fonction erreurs
+function afficherErreur(input, message) {
+  let old = input.parentElement.querySelector('.error-message');
+  if (old) old.remove();
+
+  const error = document.createElement('p');
+  error.className = 'error-message';
+  error.style.color = 'red';
+  error.style.fontSize = '0.8rem';
+  error.textContent = message;
+  input.parentElement.appendChild(error);
+  input.classList.add('invalid');
+}
+
+function clearError(input) {
+  let old = input.parentElement.querySelector('.error-message');
+  if (old) old.remove();
+  input.classList.remove('invalid');
+}
+
+// validation 
+inputNom.addEventListener('input', () => {
+  if (!isNameValid(inputNom.value)) {
+    afficherErreur(inputNom, 'Nom invalide (min 2 lettres).');
+  } else {
+    clearError(inputNom);
+  }
+});
+
+inputRole.addEventListener('input', () => {
+  if (!isNameValid(inputRole.value)) {
+    afficherErreur(inputRole, 'Rôle invalide (min 2 lettres).');
+  } else {
+    clearError(inputRole);
+  }
+});
+
+inputEmail.addEventListener('input', () => {
+  if (!isEmailValid(inputEmail.value)) {
+    afficherErreur(inputEmail, 'Email invalide.');
+  } else {
+    clearError(inputEmail);
+  }
+});
+
+inputTel.addEventListener('input', () => {
+  if (!isPhoneValid(inputTel.value)) {
+    afficherErreur(inputTel, 'Téléphone invalide (ex: 06 12 34 56 78).');
+  } else {
+    clearError(inputTel);
+  }
+});
+
+// experience dynamique
+function attachRealtimeValidationToExp(item) {
+  const companyInput = item.querySelector('.exp-company');
+  const roleInput = item.querySelector('.exp-role');
+  const fromInput = item.querySelector('.exp-from');
+  const toInput = item.querySelector('.exp-to');
+
+  const todayISO = getTodayISO();
+  fromInput.max = todayISO;
+  toInput.max = todayISO;
+
+  companyInput.addEventListener('input', () => {
+    if (!isNameValid(companyInput.value)) {
+      afficherErreur(companyInput, 'Company invalide (min 2 caractères).');
     } else {
-        // Mode ajout
-        workers.push(newWorker);
-        console.log(` Worker ajouté: ${nom}`);
+      clearError(companyInput);
     }
+  });
 
-    // Mettre à jour l'affichage
-    renderworkers();
-
-    // Fermer le modal
-    modal.style.display = "none";
-    currentCard = null;
-});
-
-document.querySelector("form").addEventListener("submit", e => e.preventDefault());
-
-//  AFFICHAGE DES EMPLOYÉS 
-affichage.addEventListener("click", function (e) {
-    const card = e.target.closest(".worker-card");
-    if (!card) return;
-
-    const index = card.dataset.index;
-    
-    if (e.target.closest(".edit-btn")) {
-        // Mode édition
-        const btn = e.target.closest(".edit-btn");
-        currentCard = btn.closest(".worker-card");
-        const workerIndex = currentCard.dataset.index;
-        const worker = workers[workerIndex];
-
-        document.getElementById("nom").value = btn.dataset.nom;
-        document.getElementById("role").value = btn.dataset.role;
-        document.getElementById("photo").value = btn.dataset.photo;
-        document.getElementById("email").value = btn.dataset.email;
-        document.getElementById("telephone").value = btn.dataset.telephone;
-
-        // Afficher les expériences
-        displayWorkerExperiences(worker);
-
-        if (btn.dataset.photo) {
-            previewImg.src = btn.dataset.photo;
-            previewImg.style.display = "block";
-        }
-
-        modal.style.display = "block";
-    } else if (e.target.closest(".delete-btn")) {
-        // Mode suppression
-        if (confirm("Êtes-vous sûr de vouloir supprimer cet employé?")) {
-            const nom = workers[index].nom;
-            workers.splice(index, 1);
-            console.log(` Worker supprimé: ${nom}`);
-            renderworkers();
-        }
-    }
-});
-
-//  FONCTION: AFFICHER LA LISTE DES EMPLOYÉS 
-function renderworkers() {
-    affichage.innerHTML = "";
-    workers.forEach((worker, index) => {
-        const photoSrc = worker.photo || "https://via.placeholder.com/80?text=No+Photo";
-        affichage.innerHTML += `
-        <div class="worker-card" data-index="${index}">
-            <div class="worker-info">
-                <img src="${photoSrc}" alt="${worker.nom}" class="worker-photo" onerror="this.src='https://via.placeholder.com/80?text=No+Photo'">
-                <h3 class="worker-name">${worker.nom}</h3>
-            </div>
-            <p class="worker-role">${worker.role}</p>
-            <button class="edit-btn"
-                    data-nom="${worker.nom}"
-                    data-role="${worker.role}"
-                    data-photo="${worker.photo || ''}"
-                    data-email="${worker.email}"
-                    data-telephone="${worker.telephone}">
-            <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button class="delete-btn"><i class="fa-solid fa-ban"></i></button>
-        </div>`;
-    });
-}
-
-// GESTION DES EXPÉRIENCES 
-document.addEventListener("DOMContentLoaded", async () => {
-    // Charger les données au démarrage
-    await loadDataFromJSON();
-    
-    // Afficher la liste
-    renderworkers();
-    
-    // Afficher les zones
-    renderAssignments();
-    
-    // Initialiser la gestion des expériences
-    setupExperienceManager();
-});
-
-function setupExperienceManager() {
-    const addExperienceBtn = document.getElementById("addExperienceBtn");
-    if (addExperienceBtn) {
-        addExperienceBtn.addEventListener("click", addExperienceField);
-    }
-}
-
-function addExperienceField() {
-    const container = document.getElementById("experiencesContainer");
-    const experienceItem = document.createElement("div");
-    experienceItem.className = "experience-item";
-    experienceItem.innerHTML = `
-        <input type="text" placeholder="Titre du poste" class="experience-titre">
-        <input type="text" placeholder="Entreprise" class="experience-entreprise">
-        <input type="text" placeholder="Durée (ex: 3 ans)" class="experience-duree">
-        <button type="button" class="remove-exp-btn">
-            <i class="fa-solid fa-trash"></i>
-        </button>
-    `;
-    
-    experienceItem.querySelector(".remove-exp-btn").addEventListener("click", function() {
-        experienceItem.remove();
-    });
-
-    container.appendChild(experienceItem);
-}
-
-function displayWorkerExperiences(worker) {
-    const container = document.getElementById("experiencesContainer");
-    container.innerHTML = "";
-    
-    if (worker.experiences && worker.experiences.length > 0) {
-        worker.experiences.forEach(exp => {
-            const experienceItem = document.createElement("div");
-            experienceItem.className = "experience-item";
-            experienceItem.innerHTML = `
-                <input type="text" placeholder="Titre du poste" class="experience-titre" value="${exp.titre || ''}">
-                <input type="text" placeholder="Entreprise" class="experience-entreprise" value="${exp.entreprise || ''}">
-                <input type="text" placeholder="Durée" class="experience-duree" value="${exp.duree || ''}">
-                <button type="button" class="remove-exp-btn">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            `;
-            
-            experienceItem.querySelector(".remove-exp-btn").addEventListener("click", function() {
-                experienceItem.remove();
-            });
-
-            container.appendChild(experienceItem);
-        });
-    }
-}
-
-// APERÇU DE L'IMAGE EN TEMPS RÉEL 
-photoInput.addEventListener("input", function () {
-    const url = photoInput.value.trim();
-    if (url) {
-        previewImg.src = url;
-        previewImg.style.display = "block";
+  roleInput.addEventListener('input', () => {
+    if (!isNameValid(roleInput.value)) {
+      afficherErreur(roleInput, 'Role invalide (min 2 caractères).');
     } else {
-        previewImg.style.display = "none";
+      clearError(roleInput);
+    }
+  });
+
+  function validateDatesExp() {
+    const fromVal = fromInput.value.trim();
+    const toVal = toInput.value.trim();
+
+    clearError(fromInput);
+    clearError(toInput);
+
+    if (fromVal && (!isDateValid(fromVal) || !isPastOrToday(fromVal))) {
+      afficherErreur(fromInput, 'From doit être une date ≤ aujourd’hui.');
+    }
+    if (toVal && (!isDateValid(toVal) || !isPastOrToday(toVal))) {
+      afficherErreur(toInput, 'To doit être une date ≤ aujourd’hui.');
+    }
+    if (isDateValid(fromVal) && isDateValid(toVal) && fromVal > toVal) {
+      afficherErreur(toInput, 'To doit être ≥ From.');
+    }
+  }
+
+  fromInput.addEventListener('input', validateDatesExp);
+  toInput.addEventListener('input', validateDatesExp);
+}
+
+addExperienceBtn.addEventListener('click', () => {
+  const item = document.createElement('div');
+  item.className = 'experience-item';
+
+  item.innerHTML = `
+    <div class="experience-row">
+      <div class="field">
+        <label>Company</label>
+        <input type="text" class="exp-company" placeholder="Entreprise" />
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <input type="text" class="exp-role" placeholder="Rôle" />
+      </div>
+    </div>
+    <div class="experience-row">
+      <div class="field">
+        <label>From</label>
+        <input type="date" class="exp-from" />
+      </div>
+      <div class="field">
+        <label>To</label>
+        <input type="date" class="exp-to" />
+      </div>
+    </div>
+    <button type="button" class="remove-exp-btn">Supprimer</button>
+  `;
+
+  item.querySelector('.remove-exp-btn').addEventListener('click', () => {
+    item.remove();
+  });
+
+  attachRealtimeValidationToExp(item);
+
+  experiencesContainer.appendChild(item);
+});
+
+//  ENREGISTRER //STOCKER // AFFICHER CARD 
+saveBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  let isValid = true;
+
+  [inputNom, inputRole, inputEmail, inputTel].forEach(clearError);
+
+  if (!isNameValid(inputNom.value)) {
+    afficherErreur(inputNom, 'Nom invalide (min 2 lettres).');
+    isValid = false;
+  }
+  if (!isNameValid(inputRole.value)) {
+    afficherErreur(inputRole, 'Rôle invalide (min 2 lettres).');
+    isValid = false;
+  }
+  if (!isEmailValid(inputEmail.value)) {
+    afficherErreur(inputEmail, 'Email invalide.');
+    isValid = false;
+  }
+  if (!isPhoneValid(inputTel.value)) {
+    afficherErreur(inputTel, 'Téléphone invalide (ex: 06 12 34 56 78).');
+    isValid = false;
+  }
+
+  const expItems = Array.from(document.querySelectorAll('.experience-item'));
+  const experiences = [];
+
+  expItems.forEach(item => {
+    const companyInput = item.querySelector('.exp-company');
+    const roleInput = item.querySelector('.exp-role');
+    const fromInput = item.querySelector('.exp-from');
+    const toInput = item.querySelector('.exp-to');
+
+    [companyInput, roleInput, fromInput, toInput].forEach(clearError);
+
+    if (!isNameValid(companyInput.value)) {
+      afficherErreur(companyInput, 'Company invalide (min 2 caractères).');
+      isValid = false;
+    }
+    if (!isNameValid(roleInput.value)) {
+      afficherErreur(roleInput, 'Role invalide (min 2 caractères).');
+      isValid = false;
+    }
+
+    const fromVal = fromInput.value.trim();
+    const toVal = toInput.value.trim();
+
+    if (!isDateValid(fromVal) || !isPastOrToday(fromVal)) {
+      afficherErreur(fromInput, 'From doit être une date ≤ aujourd’hui.');
+      isValid = false;
+    }
+    if (!isDateValid(toVal) || !isPastOrToday(toVal)) {
+      afficherErreur(toInput, 'To doit être une date ≤ aujourd’hui.');
+      isValid = false;
+    }
+    if (isDateValid(fromVal) && isDateValid(toVal) && fromVal > toVal) {
+      afficherErreur(toInput, 'To doit être ≥ From.');
+      isValid = false;
+    }
+
+    if (
+      isNameValid(companyInput.value) &&
+      isNameValid(roleInput.value) &&
+      isDateValid(fromVal) &&
+      isDateValid(toVal) &&
+      isPastOrToday(fromVal) &&
+      isPastOrToday(toVal) &&
+      fromVal <= toVal
+    ) {
+      experiences.push({
+        titre: roleInput.value.trim(),
+        entreprise: companyInput.value.trim(),
+        duree: `${fromVal} → ${toVal}`
+      });
+    }
+  });
+
+  if (!isValid) return;
+
+  const newEmp = {
+    nom: inputNom.value.trim(),
+    role: inputRole.value.trim(),
+    photo: inputPhoto.value.trim() || 'default.jpg',
+    email: inputEmail.value.trim(),
+    telephone: inputTel.value.trim(),
+    experiences: experiences
+  };
+
+  employesGlobal.push(newEmp);
+  afficherEmployes(employesGlobal);
+
+  form.reset();
+  experiencesContainer.innerHTML = '';
+  modal.style.display = 'none';
+});
+
+
+
+//previsualisation de phot
+inputPhoto.addEventListener('input', () => {
+    const preview = document.getElementById('previewImg');
+    if (inputPhoto.value.trim()) {
+        preview.src = inputPhoto.value.trim();
+        preview.style.display = 'block';
+    } else {
+        preview.style.display = 'none';
     }
 });
 
-// GESTION DES ACCÈS PAR ZONE 
-const accessrules = {
-    "reception": ["Réceptioniste", "Manager"],
-    "Salle-des-serveurs": ["Technicien-IT", "Manager"],
-    "Salle-de-sécurité": ["Agent de sécurité", "Manager"],
-    "Salle-darchives": ["Manager"],
-    // Les salles libres
-    "Salle-du-personnel": "all",
-    "conference": "all",
-    "div3": "all"
+
+
+//une fonction qui verifie si un employe peut etre affecté a une zone
+function peutAffecter(emp, zone) {
+    const role = emp.role.toLowerCase();
+    switch (zone) {
+        case 'reception':
+            return role === 'réceptionniste';
+        case 'Salle-des-serveurs':
+            return role === 'technicien it';
+        case 'Salle-de-sécurité':
+            return role === 'agent de sécurité';
+        case 'Salle-du-personnel':
+        case 'conference':
+        case 'div3':
+            return true; // tous les roles peuvent etre affectes ici
+        case 'Salle-darchives':
+            return role !== 'nettoyage'; // nettoyage interdit
+        default:
+            return true;
+    }
+}
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('unassign-btn')) {
+        const workerCard = e.target.closest('.worker-card-zone');
+        const zone = workerCard.parentElement;
+        const worker = {
+            nom: workerCard.querySelector('p').textContent,
+            // Ajoutez les autres données nécessaires ici
+        };
+        // Retirer de la zone
+        zone.removeChild(workerCard);
+        // Ajouter à la liste "Unassigned"
+        afficherEmployes([worker]);
+    }
+});
+
+
+
+// LISTE DES ZONES AVEC RESTRICTIONS
+const zoneRestrictions = {
+  "reception": emp => emp.role.toLowerCase() === "réceptionniste" || emp.role.toLowerCase() === "manager",
+  "Salle-des-serveurs": emp => emp.role.toLowerCase() === "technicien it" || emp.role.toLowerCase() === "manager",
+  "Salle-de-sécurité": emp => emp.role.toLowerCase() === "agent de sécurité" || emp.role.toLowerCase() === "manager",
+  "Salle-du-personnel": emp => emp.role.toLowerCase() === "manager" || emp.role.toLowerCase() === "nettoyage" || emp.role.toLowerCase() === "autres",
+  "Salle-darchives": emp => emp.role.toLowerCase() !== "nettoyage",
+  "conference": emp => true // tout le monde
 };
 
-function hasAccess(Role, zone) {
-    const rule = accessrules[zone];
-    if (rule === "all") {
-        return true;
-    }
-    return rule.includes(Role);
-}
+// Gestion du bouton "Assigner" sur les zones
+document.querySelectorAll('.assign-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    const zoneDiv = btn.closest('.zone');
+    const zoneName = zoneDiv.classList[0];
 
-// SYSTÈME D'ASSIGNEMENT 
-// Cliquer sur le bouton + pour activer le modal d'assignement
-document.querySelectorAll(".assign-btn").forEach(btn => {
-    btn.addEventListener("click", function () {
-        const zone = this.parentElement.classList[0];
-        showAssignableWorkers(zone);
+    // Filtrer selon restrictions
+    const eligibles = employesGlobal.filter(emp => zoneRestrictions[zoneName] ? zoneRestrictions[zoneName](emp) : true);
+
+    // Afficher la liste dans la modale
+    const assignModal = document.getElementById('assignModal');
+    const assignList = document.getElementById('assignModalList');
+    assignList.innerHTML = '';
+
+    eligibles.forEach(emp => {
+      const empDiv = document.createElement('div');
+      empDiv.className = 'assign-item';
+      empDiv.textContent = emp.nom + " (" + emp.role + ")";
+      empDiv.addEventListener('click', function () {
+        // Retirer emp de employesGlobal
+        employesGlobal = employesGlobal.filter(e => e.email !== emp.email);
+        afficherEmployes(employesGlobal); // Mettre à jour la sidebar "Unassigned"
+
+        // Ajouter visuellement à la zone :
+        const card = document.createElement('div');
+        card.className = 'worker-card-zone';
+        card.innerHTML = `<p>${emp.nom}</p><small>${emp.role}</small>
+        <button class="unassign-btn">X</button>`;
+        card.querySelector('.unassign-btn').onclick = function () {
+          card.remove();
+          employesGlobal.push(emp);
+          afficherEmployes(employesGlobal);
+        };
+        zoneDiv.appendChild(card);
+
+        assignModal.style.display = 'none';
+      });
+      assignList.appendChild(empDiv);
     });
+
+    assignModal.style.display = 'flex';
+  });
 });
 
-// Fermeture du modal d'assignement
-document.getElementById("assignModalClose").addEventListener("click", () => {
-    document.getElementById("assignModal").style.display = "none";
-});
-
-// FONCTION: AFFICHER LES EMPLOYÉS ASSIGNABLES 
-function showAssignableWorkers(zone) {
-    const list = document.getElementById("assignModalList");
-    list.innerHTML = "";
-
-    workers.forEach((w, index) => {
-        if (hasAccess(w.role, zone)) {
-            const photoSrc = w.photo || "https://via.placeholder.com/40?text=No";
-            list.innerHTML += `
-                <div class="assign-item" data-index="${index}">
-                    <img src="${photoSrc}" alt="${w.nom}" onerror="this.src='https://via.placeholder.com/40?text=No'">
-                    <span>${w.nom} (${w.role})</span>
-                </div>
-            `;
-        }
-    });
-
-    if (list.innerHTML === "") {
-        list.innerHTML = "<p style='text-align:center; padding:20px;'>Aucun employé n'a accès à cette zone.</p>";
-    }
-
-    document.getElementById("assignModal").dataset.zone = zone;
-    document.getElementById("assignModal").style.display = "block";
-}
-
-// ÉVÉNEMENT: CLIQUER SUR UN EMPLOYÉ ASSIGNABLE 
-document.getElementById("assignModalList").addEventListener("click", function (e) {
-    const item = e.target.closest(".assign-item");
-    if (!item) return;
-
-    const index = item.dataset.index;
-    const zone = document.getElementById("assignModal").dataset.zone;
-
-    assignWorkerToZone(index, zone);
-});
-
-// FONCTION: ASSIGNER UN EMPLOYÉ À UNE ZONE 
-function assignWorkerToZone(index, zone) {
-    const worker = workers[index];
-
-    // Ajouter aux assignements
-    assignments[zone].push(worker);
-    console.log(` ${worker.nom} assigné à ${zone}`);
-
-    // Enlever de la liste des disponibles
-    workers.splice(index, 1);
-
-    // Mettre à jour l'affichage
-    renderworkers();
-    renderAssignments();
-
-    document.getElementById("assignModal").style.display = "none";
-}
-
-// FONCTION: AFFICHER LES ASSIGNEMENTS AUX ZONES 
-function renderAssignments() {
-    // Nettoyer les zones (garder les boutons)
-    document.querySelectorAll(".zone").forEach(zone => {
-        const workerCards = zone.querySelectorAll(".worker-card-zone");
-        workerCards.forEach(w => w.remove());
-    });
-
-    // Réafficher les assignements
-    Object.keys(assignments).forEach(zone => {
-        const container = document.querySelector(`.${zone}`);
-        if (!container) return;
-
-        assignments[zone].forEach((worker, workerIndex) => {
-            const photoSrc = worker.photo || "https://via.placeholder.com/40?text=No";
-            container.innerHTML += `
-                <div class="worker-card-zone">
-                    <img src="${photoSrc}" alt="${worker.nom}" onerror="this.src='https://via.placeholder.com/40?text=No'">
-                    <p>${worker.nom}</p>
-                    <small>${worker.role}</small>
-                    <button class="unassign-btn" data-zone="${zone}" data-worker-index="${workerIndex}">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </div>
-            `;
-        });
-    });
-
-    // Réattacher les event listeners pour les boutons assign
-    document.querySelectorAll(".assign-btn").forEach(btn => {
-        btn.addEventListener("click", function () {
-            const zone = this.parentElement.classList[0];
-            showAssignableWorkers(zone);
-        });
-    });
-
-    // Gestion de la désassignation
-    document.querySelectorAll(".unassign-btn").forEach(btn => {
-        btn.addEventListener("click", function () {
-            const zone = this.dataset.zone;
-            const workerIndex = parseInt(this.dataset.workerIndex);
-
-            // Récupérer le worker avant suppression
-            const worker = assignments[zone][workerIndex];
-
-            // Supprimer de la zone
-            assignments[zone].splice(workerIndex, 1);
-
-            // Remettre en liste disponible
-            workers.push(worker);
-            console.log(` ${worker.nom} retiré de ${zone}`);
-
-            // Rafraîchir l'affichage
-            renderworkers();
-            renderAssignments();
-        });
-    });
-}
+// Bouton fermeture du modal d’assignation
+document.getElementById('assignModalClose').onclick = function() {
+  document.getElementById('assignModal').style.display = 'none';
+};

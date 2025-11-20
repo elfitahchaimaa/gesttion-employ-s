@@ -14,17 +14,31 @@
             <h2>Unassigned Staff</h2>
             <div id="affichage"></div>
             <button class="ajoutworker"><i class="fa-solid fa-circle-plus"></i></button>
+            <!--modal pour afficher les details de l employés-->
+         <div id="detailsModal" class="modal1" style="display:none;">
+        <div class="modal-content">
+            <h3 id="detailNom"></h3>
+            <img id="detailPhoto" src="" alt="" />
+            <p id="detailRole"></p>
+            <p id="detailEmail"></p>
+            <p id="detailTel"></p>
+            <div id="detailExperiences"></div>
 
-            <!-- MODAL D'AJOUT/ÉDITION D'EMPLOYÉ -->
+    <button id="detailsClose" class="close">Fermer</button>
+  </div>
+</div>
+
+
+            
             <div id="modal" class="modal1" style="display:none;">
                 <div class="modal-content">
                     <h3>Ajouter un Employé</h3>
                     
                     <div class="imgcontainer">
                         <img id="previewImg" src="" alt="Prévisualisation" style="display:none;">
-                                           </div>
+                    </div>
 
-                    <form>
+                    <form id="addWorkerForm">
                         <label>Nom <span style="color: red;">*</span></label>
                         <input type="text" id="nom" placeholder="Entrez le nom" required>
 
@@ -40,7 +54,7 @@
                         <label>Téléphone <span style="color: red;">*</span></label>
                         <input type="text" id="telephone" placeholder="06 12 34 56 78" required>
 
-                        <!-- EXPÉRIENCES PROFESSIONNELLES -->
+                       
                         <label>Expériences Professionnelles</label>
                         <div id="experiencesContainer"></div>
                         <button type="button" id="addExperienceBtn">+ Ajouter une expérience</button>
@@ -50,40 +64,53 @@
                     </form>
                 </div>
             </div>
+            <div class="details worker"></div>
         </div>
 
         <div class="mainbar">
 
             <div class="conference zone">
                 <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+               
+
             </div>
 
             <div class="reception zone">
                 <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+               
+
             </div>
 
             <div class="div3 zone"></div>
 
             <div class="Salle-des-serveurs zone">
                 <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+                
+
             </div>
 
             <div class="Salle-de-sécurité zone">
                 <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+                
+
             </div>
 
             <div class="Salle-du-personnel zone">
                 <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+               
+
             </div>
 
             <div class="Salle-darchives zone">
                 <button class="assign-btn"><i class="fa-solid fa-plus"></i></button>
+             
+
             </div>
 
         </div>
     </div>
 
-    <!-- MODALE POUR ASSIGNER UN EMPLOYÉ À UNE ZONE -->
+    
     <div id="assignModal" class="modal1" style="display:none;">
         <div class="modal-content">
             <h3>Choisir un employé pour cette zone</h3>
@@ -92,6 +119,7 @@
         </div>
     </div>
 
+   
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "workers": [
     {
-      "nom": "Alexis Rousseau",
+      "nom": "khadija abirat",
       "role": "Réceptioniste",
       "photo": "https://i.pravatar.cc/150?img=1&u=alexis.rousseau@entreprise.com",
       "email": "alexis.rousseau@entreprise.com",
@@ -20,7 +20,7 @@
       ]
     },
     {
-      "nom": "Marie-Claire Dubois",
+      "nom": "olia azzam",
       "role": "Manager",
       "photo": "https://i.pravatar.cc/150?img=5&u=marie.dubois@entreprise.com",
       "email": "marie.dubois@entreprise.com",
@@ -44,7 +44,7 @@
       ]
     },
     {
-      "nom": "Pierre-Antoine Bernard",
+      "nom": "arabi loubi",
       "role": "Technicien-IT",
       "photo": "https://i.pravatar.cc/150?img=12&u=pierre.bernard@entreprise.com",
       "email": "pierre.bernard@entreprise.com",
@@ -68,7 +68,7 @@
       ]
     },
     {
-      "nom": "Sophie Anne Leclerc",
+      "nom": "zakariya hari",
       "role": "Agent de sécurité",
       "photo": "https://i.pravatar.cc/150?img=20&u=sophie.leclerc@entreprise.com",
       "email": "sophie.leclerc@entreprise.com",

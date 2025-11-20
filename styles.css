@@ -21,6 +21,13 @@ body {
     padding-bottom: 20px;
 }
 
+.sidebar > h2 {
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
 .mainbar {
     background-color: #fff;
     height: 100vh;
@@ -35,20 +42,7 @@ body {
     gap: 0;
 }
 
-.sidebar > h2 {
-    text-align: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    color: #333;
-}
-
 /* ========== BOUTON AJOUTER EMPLOYÉ ========== */
-.fa-circle-plus {
-    font-size: 35px;
-    color: #333;
-    transition: color 0.3s ease;
-}
-
 .ajoutworker {
     background: none;
     border: none;
@@ -57,6 +51,12 @@ body {
     margin: 0 auto;
     margin-top: 10px;
     transition: transform 0.3s ease;
+}
+
+.fa-circle-plus {
+    font-size: 35px;
+    color: #333;
+    transition: color 0.3s ease;
 }
 
 .ajoutworker:hover .fa-circle-plus {
@@ -76,16 +76,20 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
     overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     background-color: white;
-    margin: 5% auto;
     padding: 30px;
     border: none;
     border-radius: 15px;
     width: 90%;
     max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     animation: slideDown 0.4s ease;
 }
@@ -278,6 +282,7 @@ form input:focus {
     border: 1px solid #ccc;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .worker-card:hover {
@@ -373,31 +378,30 @@ form input:focus {
 .div3 {
     grid-column: 2 / 3;
     grid-row: 1 / 4;
-    
 }
 
 .Salle-des-serveurs {
     grid-column: 3 / 4;
     grid-row: 1 / 2;
-    background-color: rgba(255, 215, 0, 0.678);
+    
 }
 
 .Salle-de-sécurité {
     grid-column: 3 / 4;
     grid-row: 3 / 4;
-    background-color: rgba(128, 0, 128, 0.678);
+   
 }
 
 .Salle-du-personnel {
     grid-column: 4 / 5;
     grid-row: 1 / 2;
-    background-color: rgba(255, 69, 0, 0.678);
+  
 }
 
 .Salle-darchives {
     grid-column: 4 / 5;
     grid-row: 3 / 4;
-    background-color: rgba(0, 255, 255, 0.678);
+   
 }
 
 /* ========== BOUTON ASSIGNER ========== */
@@ -423,6 +427,15 @@ form input:focus {
     background: rgba(255, 255, 255, 1);
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.assign-worker-btn {
+    background-color: rgb(62, 191, 70);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 5px;
 }
 
 /* ========== ITEMS D'ASSIGNEMENT DANS MODAL ========== */
@@ -535,263 +548,49 @@ form input:focus {
     background: #c9302c !important;
     transform: scale(1.05);
 }
-
-/* ========== RESPONSIVE - TABLETTES ========== */
-@media (max-width: 1024px) {
-    .container {
-        grid-template-columns: 1fr 2fr;
-    }
-
-    .mainbar {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(4, 1fr);
-    }
-
-    .conference {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-    }
-
-    .reception {
-        grid-column: 1 / 2;
-        grid-row: 2 / 4;
-    }
-
-    .div3 {
-        grid-column: 2 / 3;
-        grid-row: 1 / 4;
-        width: 100%;
-    }
-
-    .Salle-des-serveurs {
-        grid-column: 1 / 2;
-        grid-row: 4 / 5;
-    }
-
-    .Salle-de-sécurité {
-        grid-column: 2 / 3;
-        grid-row: 4 / 5;
-    }
-
-    .Salle-du-personnel {
-        display: none;
-    }
-
-    .Salle-darchives {
-        display: none;
-    }
-
-    .modal-content {
-        width: 95%;
-        padding: 20px;
-    }
+.experience-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #f9fafb;
 }
 
-/* ========== RESPONSIVE - MOBILES ========== */
-@media (max-width: 768px) {
-    .container {
-        grid-template-columns: 1fr;
-        height: auto;
-    }
-
-    .sidebar {
-        height: auto;
-        min-height: 50vh;
-        grid-column: 1 / 2;
-        grid-row: 2 / 3;
-        border-top: 3px solid #ddd;
-    }
-
-    .mainbar {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-        height: 50vh;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(6, 1fr);
-    }
-
-    .conference {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-    }
-
-    .reception {
-        grid-column: 1 / 2;
-        grid-row: 2 / 3;
-    }
-
-    .div3 {
-        grid-column: 1 / 2;
-        grid-row: 3 / 4;
-    }
-
-    .Salle-des-serveurs {
-        grid-column: 1 / 2;
-        grid-row: 4 / 5;
-    }
-
-    .Salle-de-sécurité {
-        grid-column: 1 / 2;
-        grid-row: 5 / 6;
-    }
-
-    .Salle-du-personnel {
-        grid-column: 1 / 2;
-        grid-row: 6 / 7;
-        display: flex;
-    }
-
-    .Salle-darchives {
-        display: none;
-    }
-
-    #affichage {
-        max-height: none;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .worker-card {
-        flex: 1 1 calc(50% - 10px);
-        min-width: 150px;
-    }
-
-    .sidebar > h2 {
-        font-size: 1.2rem;
-    }
-
-    .modal-content {
-        width: 95%;
-        margin: 20% auto;
-        padding: 15px;
-    }
-
-    .modal-content h3 {
-        font-size: 1.1rem;
-    }
-
-    form input {
-        font-size: 16px;
-    }
-
-    .assign-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
-
-    .worker-card-zone {
-        min-width: 80px;
-        padding: 8px;
-    }
-
-    .zone {
-        padding: 8px;
-    }
+.experience-row {
+  display: flex;
+  gap: 8px;
 }
 
-/* ========== RESPONSIVE - PETITS MOBILES ========== */
-@media (max-width: 480px) {
-    .sidebar > h2 {
-        font-size: 1rem;
-        padding: 10px;
-    }
-
-    #affichage {
-        flex-direction: column;
-    }
-
-    .worker-card {
-        flex: 1 1 100%;
-    }
-
-    .worker-info {
-        flex-wrap: wrap;
-    }
-
-    .modal-content {
-        margin: 30% auto;
-        padding: 12px;
-    }
-
-    .modal-content h3 {
-        font-size: 1rem;
-        border-bottom: 2px solid #667eea;
-        padding-bottom: 10px;
-    }
-
-    .imgcontainer {
-        width: 100px;
-        height: 100px;
-    }
-
-    #defaultIcon {
-        font-size: 40px;
-    }
-
-    .save,
-    .close {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
-
-    .edit-btn,
-    .delete-btn {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-    }
-
-    .assign-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
-    }
-
-    .worker-card-zone {
-        min-width: 70px;
-        padding: 6px;
-        font-size: 0.8rem;
-    }
-
-    .worker-card-zone img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .assign-item {
-        padding: 8px;
-        font-size: 0.85rem;
-    }
-
-    #assignModalList {
-        max-height: 300px;
-    }
-
-    .zone {
-        padding: 5px;
-    }
+.experience-row input {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.85rem;
 }
 
-/* ========== RESPONSIVE - ÉCRANS TRÈS LARGES ========== */
-@media (min-width: 1440px) {
-    .container {
-        grid-template-columns: 350px 1fr;
-    }
+.experience-row input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+}
 
-    .sidebar {
-        padding: 0 20px;
-    }
+.experience-item label {
+  font-size: 0.8rem;
+  color: #555;
+}
 
-    .modal-content {
-        max-width: 600px;
-        padding: 40px;
-    }
-
-    .worker-card {
-        padding: 20px;
-    }
-
-    #affichage {
-        gap: 15px;
-    }
+.remove-exp-btn {
+  align-self: flex-end;
+  margin-top: 4px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  border: none;
+  background: #fee2e2;
+  color: #b91c1c;
+  cursor: pointer;
 }
