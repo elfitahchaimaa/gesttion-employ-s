@@ -428,20 +428,20 @@ inputPhoto.addEventListener('input', () => {
 //             return true;
 //     }
 // }
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('unassign-btn')) {
-        const workerCard = e.target.closest('.worker-card-zone');
-        const zone = workerCard.parentElement;
-        const worker = {
-            nom: workerCard.querySelector('p').textContent,
-            // Ajoutez les autres données nécessaires ici
-        };
-        // Retirer de la zone
-        zone.removeChild(workerCard);
-        // Ajouter à la liste "Unassigned"
-        afficherEmployes([worker]);
-    }
-});
+// document.addEventListener('click', (e) => {
+//     if (e.target.classList.contains('unassign-btn')) {
+//         const workerCard = e.target.closest('.worker-card-zone');
+//         const zone = workerCard.parentElement;
+//         const worker = {
+//             nom: workerCard.querySelector('p').textContent,
+//             // Ajoutez les autres données nécessaires ici
+//         };
+//         // Retirer de la zone
+//         zone.removeChild(workerCard);
+//         // Ajouter à la liste "Unassigned"
+//         afficherEmployes([worker]);
+//     }
+// });
 
 
 
