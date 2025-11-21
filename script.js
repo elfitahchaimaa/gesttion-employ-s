@@ -409,25 +409,25 @@ inputPhoto.addEventListener('input', () => {
 
 
 //une fonction qui verifie si un employe peut etre affecté a une zone
-function peutAffecter(emp, zone) {
-    const role = emp.role.toLowerCase();
-    switch (zone) {
-        case 'reception':
-            return role === 'réceptionniste';
-        case 'Salle-des-serveurs':
-            return role === 'technicien it';
-        case 'Salle-de-sécurité':
-            return role === 'agent de sécurité';
-        case 'Salle-du-personnel':
-        case 'conference':
-        case 'div3':
-            return true; // tous les roles peuvent etre affectes ici
-        case 'Salle-darchives':
-            return role !== 'nettoyage'; // nettoyage interdit
-        default:
-            return true;
-    }
-}
+// function peutAffecter(emp, zone) {
+//     const role = emp.role.toLowerCase();
+//     switch (zone) {
+//         case 'reception':
+//             return role === 'réceptionniste';
+//         case 'Salle-des-serveurs':
+//             return role === 'technicien it';
+//         case 'Salle-de-sécurité':
+//             return role === 'agent de sécurité';
+//         case 'Salle-du-personnel':
+//         case 'conference':
+//         case 'div3':
+//             return true; // tous les roles peuvent etre affectes ici
+//         case 'Salle-darchives':
+//             return role !== 'nettoyage'; // nettoyage interdit
+//         default:
+//             return true;
+//     }
+// }
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('unassign-btn')) {
         const workerCard = e.target.closest('.worker-card-zone');
@@ -478,7 +478,7 @@ document.querySelectorAll('.assign-btn').forEach(btn => {
         employesGlobal = employesGlobal.filter(e => e.email !== emp.email);
         afficherEmployes(employesGlobal); // Mettre à jour la sidebar "Unassigned"
 
-        // Ajouter visuellement à la zone :
+        // Ajouter visuellement la zone
         const card = document.createElement('div');
         card.className = 'worker-card-zone';
         card.innerHTML = `<p>${emp.nom}</p><small>${emp.role}</small>
