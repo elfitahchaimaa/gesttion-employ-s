@@ -455,16 +455,16 @@ const zoneRestrictions = {
   "conference": emp => true // tout le monde
 };
 
-// Gestion du bouton "Assigner" sur les zones
+// gestion du bouton "Assigner" sur les zones
 document.querySelectorAll('.assign-btn').forEach(btn => {
   btn.addEventListener('click', function () {
     const zoneDiv = btn.closest('.zone');
     const zoneName = zoneDiv.classList[0];
 
-    // Filtrer selon restrictions
+    // filtrer selon restrictions
     const eligibles = employesGlobal.filter(emp => zoneRestrictions[zoneName] ? zoneRestrictions[zoneName](emp) : true);
 
-    // Afficher la liste dans la modale
+    // afficher la liste dans la modale
     const assignModal = document.getElementById('assignModal');
     const assignList = document.getElementById('assignModalList');
     assignList.innerHTML = '';
@@ -474,11 +474,11 @@ document.querySelectorAll('.assign-btn').forEach(btn => {
       empDiv.className = 'assign-item';
       empDiv.textContent = emp.nom + " (" + emp.role + ")";
       empDiv.addEventListener('click', function () {
-        // Retirer emp de employesGlobal
+        // retirer emp de employesGlobal
         employesGlobal = employesGlobal.filter(e => e.email !== emp.email);
         afficherEmployes(employesGlobal); // Mettre à jour la sidebar "Unassigned"
 
-        // Ajouter visuellement la zone
+        // ajouter visuellement la zone
         const card = document.createElement('div');
         card.className = 'worker-card-zone';
         card.innerHTML = `<p>${emp.nom}</p><small>${emp.role}</small>
@@ -499,7 +499,7 @@ document.querySelectorAll('.assign-btn').forEach(btn => {
   });
 });
 
-// Bouton fermeture du modal d’assignation
+// bouton fermeture du modal d’assignation
 document.getElementById('assignModalClose').onclick = function() {
   document.getElementById('assignModal').style.display = 'none';
 };
