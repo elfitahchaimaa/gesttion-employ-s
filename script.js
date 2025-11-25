@@ -72,11 +72,6 @@ function afficherEmployes(employes) {
     tel.textContent = emp.telephone;
     card.appendChild(tel);
 
-    const btn = document.createElement('button');
-    btn.textContent = 'Assigner';
-    btn.classList.add('assign-worker-btn');
-    card.appendChild(btn);
-
     card.addEventListener('click', function () {
       ouvrirDetailsModal(emp);
     });
